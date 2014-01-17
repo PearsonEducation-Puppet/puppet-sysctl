@@ -3,8 +3,14 @@
 # Common part for the sysctl definition. Not meant to be used on its own.
 #
 class sysctl::base (
-  $purge = true,
+  $purge = false,
 ) {
+
+  if $purge {
+    $recurse = true
+  } else {
+    $recurse = false
+  }
 
   file { '/etc/sysctl.d':
     ensure => directory,
@@ -13,6 +19,7 @@ class sysctl::base (
     mode   => '0755',
     # Magic hidden here
     purge  => $purge,
+    recurse => $recurse,
   }
 
 }
